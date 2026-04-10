@@ -4,8 +4,10 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const hip_lib_path = "libs/hip/";
+
     const hip_translated_c = b.addTranslateC(.{
-        .root_source_file = b.path("libs/hip/hip.h"),
+        .root_source_file = b.path(hip_lib_path ++ "hip.h"),
         .optimize = optimize,
         .target = target,
         .link_libc = true,
@@ -20,7 +22,9 @@ pub fn build(b: *std.Build) void {
                 .link_libcpp = true,
             });
 
-            hip_module.addObjectFile(b.path("libs/hip/hip.o"));
+            const hip_compile = b.addSystemCommand(&.{ "hipcc", "-c", hip_lib_path ++ "hip.cpp", "-o" });
+            const hip_object_file = hip_compile.addOutputFileArg("hip.o");
+            hip_module.addObjectFile(hip_object_file);
 
             break :init hip_module;
         },
