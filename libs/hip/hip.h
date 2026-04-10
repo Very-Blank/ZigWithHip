@@ -3,14 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct HipStream {
-  void *pointer;
-} HipStream;
-
-enum State {
-  OK,
-  ERROR,
-};
+typedef void *HipStream;
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,8 +11,8 @@ extern "C" {
 
 uint32_t add(uint32_t a, uint32_t b);
 
-enum State createHipStream(HipStream *stream);
-void destroyHipStream(HipStream *stream);
+uint32_t createHipStream(HipStream *stream);
+void destroyHipStream(HipStream stream);
 
 #ifdef __cplusplus
 }
