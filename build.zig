@@ -23,6 +23,7 @@ pub fn build(b: *std.Build) void {
             });
 
             const hip_compile = b.addSystemCommand(&.{ "hipcc", "-c", hip_lib_path ++ "hip.cpp", "-o" });
+            hip_compile.addFileInput(b.path(hip_lib_path ++ "hip.cpp"));
             const hip_object_file = hip_compile.addOutputFileArg("hip.o");
             hip_module.addObjectFile(hip_object_file);
 
